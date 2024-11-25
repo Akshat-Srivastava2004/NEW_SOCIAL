@@ -7,40 +7,36 @@ import { Reply } from "../model/reply.model.js";
 const userdetail = async (req, res) => {
   try {
     const userid = req.params.id;
-    console.log("--------getting id from display ", userid)
-    const alluserdetail=await User.find({ _id: userid });
-    console.log("----user model details are ",alluserdetail);
+    console.log("--------getting id from display ", userid);
+
+    const alluserdetail = await User.find({ _id: userid });
+    console.log("----user model details are ", alluserdetail);
+
     const alldetailsuser = await Post.find({ author: userid });
-    const postis=alldetailsuser.map(post=>post._id);
+    const postis = alldetailsuser.map(post => post._id);
 
-    const allcomment=await Comment.find({post:postis})
-    const allreplyies=await Reply.find({Postid:postis})
-    console.log("--------the all comments is ",allcomment);
-    console.log("----------all replies is ",allreplyies);
+    const allcomment = await Comment.find({ post: postis });
+    const allreplyies = await Reply.find({ Postid: postis });
 
-    console.log("the posts id is ",postis);
-    console.log("all detail of user is here my friend ", alldetailsuser);
-    const cookiereply=JSON.stringify({allreplyies});
-    const cookiecomment=JSON.stringify({allcomment});
-    const cookiedata01=JSON.stringify({alluserdetail});
-    const cookiedata= JSON.stringify({ alldetailsuser });
-   
+    console.log("--------the all comments are ", allcomment);
+    console.log("----------all replies are ", allreplyies);
+    console.log("the posts id are ", postis);
+    console.log("all details of user are ", alldetailsuser);
 
-    
-    return res
-    .cookie('alldetailsuser', cookiedata)
-    .cookie('alluserdetail',cookiedata01)
-    .cookie('allcomment',cookiecomment)
-    .cookie("allreplyies",cookiereply)
-    .redirect('/profile.html');
-    
+    // Return the data as a JSON response
+    return res.status(200).json({
+      user: alluserdetail,
+      posts: alldetailsuser,
+      comments: allcomment,
+      replies: allreplyies,
+    });
   } catch (error) {
     // Handle errors
     console.error(error);
-    res.status(500).json({ error: "Internal server error" }); 
+    return res.status(500).json({ error: "Internal server error" });
   }
+};
 
-}
 
 
 

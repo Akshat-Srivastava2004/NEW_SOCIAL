@@ -49,7 +49,7 @@ router.route("/:postId/like").post(checkauthorization,likepostbyuser)
 
 router.route("/delete/:id").delete(checkauthorization,deletepost)
 router.route("/image").get(checkauthorization,getAllImages)
-router.route("/detailuser/:id").get(checkauthorization,userdetail)
+router.route("/detailuser/:id").get(userdetail)
 router.route("/allpost").get(checkauthorization,allimages)
 router.route("/usernamedetail/:id").get(checkauthorization,userfirstname)
 router.route("/useridd").get(checkauthorization,useridentity)
